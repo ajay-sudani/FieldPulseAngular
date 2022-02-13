@@ -1,0 +1,84 @@
+<div class="pizza-list">
+  <div *ngIf="selectedPizzeria" class="pizzeria-details">
+    <p class="name">{{ selectedPizzeria.name }}</p>
+    <p>{{ selectedPizzeria.address }}</p>
+  </div>
+  <div class="header-content" *ngIf="pizzaList.length > 0">
+    <div>
+      <button mat-raised-button (click)="setSelectedTabIndexEvent.emit(0)">
+        Back
+      </button>
+      <button
+        *ngIf="totalPizzas > 0"
+        mat-raised-button
+        color="primary"
+        (click)="setSelectedTabIndexEvent.emit(2)"
+      >
+        Order Calculation
+      </button>
+    </div>
+    <div>
+      <p>
+        Total Pizzas : <span>{{ totalPizzas }}</span>
+      </p>
+      <p>
+        Subtotal : <span>{{ subTotal }}</span>
+      </p>
+    </div>
+  </div>
+  <div
+    *ngIf="pizzaList.length > 0; else no_pizza_available_content"
+    class="content"
+  >
+    <mat-card class="pizza-card" *ngFor="let pizza of pizzaList">
+      <mat-card-header>
+        <mat-card-title>{{ pizza.name }}</mat-card-title>
+        <mat-card-subtitle>Price : {{ pizza.price }}$ USD</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image src="{{ pizza.image_url }}" alt="{{ pizza.name }}" />
+      <mat-card-content>
+        <p>{{ pizza.description }}</p>
+      </mat-card-content>
+      <mat-card-actions class="actions">
+        <button
+          *ngIf="!pizza.quantity"
+          mat-raised-button
+          color="primary"
+          (click)="togglePizza(pizza, 'add')"
+        >
+          Add +
+        </button>
+        <div
+          *ngIf="pizza.quantity != undefined && pizza.quantity != 0"
+          class="range-picker"
+        >
+          <button mat-raised-button color="primary">
+            <span class="quantity" (click)="togglePizza(pizza, 'remove')"
+              >-</span
+            >
+            <span>{{ pizza.quantity }}</span>
+            <span class="quantity" (click)="togglePizza(pizza, 'add')">+</span>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <ng-template #no_pizza_available_content>
+    <mat-card class="no-pizza-available">
+      <mat-card-content>
+        <p>No Pizza available for selected Pizzeria.</p>
+        <p>Kindly choose other Pizzeria from Pizzeria tab.</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="setSelectedTabIndexEvent.emit(0)"
+        >
+          Back
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </ng-template>
+</div>

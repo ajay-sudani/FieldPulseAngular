@@ -1,0 +1,31 @@
+<div class="pizzeria">
+  <mat-form-field appearance="fill">
+    <mat-label>Select Pizzeria</mat-label>
+    <mat-select (selectionChange)="onSelectPizzeria($event.value)">
+      <mat-option *ngFor="let pizzeria of pizzerias" [value]="pizzeria.id">
+        {{ pizzeria.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div *ngIf="selectedPizzeriaId !== -1" class="pizzeria-card">
+    <mat-card>
+      <mat-card-subtitle>Pizzeria Details</mat-card-subtitle>
+      <mat-card-title>{{ pizzerias[selectedPizzeriaId].name }}</mat-card-title>
+      <mat-card-content>
+        <p>{{ pizzerias[selectedPizzeriaId].address }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="setSelectedTabIndexEvent.emit(1)"
+        >
+          Order Pizza
+        </button>
+      </mat-card-actions>
+      <mat-card-footer>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

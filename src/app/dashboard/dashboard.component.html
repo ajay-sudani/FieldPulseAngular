@@ -1,0 +1,33 @@
+<mat-tab-group
+  [backgroundColor]="'primary'"
+  [selectedIndex]="selectedTabIndex"
+  (selectedTabChange)="onSelectedTabChange($event)"
+>
+  <mat-tab label="Pizzeria">
+    <app-pizzerias
+      (selectPizzeriaEvent)="onSelectPizzeria($event)"
+      (setSelectedTabIndexEvent)="setSelectedTabIndex($event)"
+    ></app-pizzerias>
+  </mat-tab>
+  <mat-tab label="Choose Pizza" [disabled]="!selectedPizzeria">
+    <app-pizza
+      [selectedPizzeria]="selectedPizzeria"
+      (selectedPizzaListEvent)="setSelectedPizza($event)"
+      (setSelectedTabIndexEvent)="setSelectedTabIndex($event)"
+    >
+    </app-pizza>
+  </mat-tab>
+  <mat-tab label="Order Calculation" [disabled]="selectedPizzaList.length == 0">
+    <app-pizza-order-calculation
+      [selectedPizzeria]="selectedPizzeria"
+      [pizzaList]="selectedPizzaList"
+      (setSelectedTabIndexEvent)="setSelectedTabIndex($event)"
+      (orderResponseEvent)="setOrderResponse($event)"
+    ></app-pizza-order-calculation>
+  </mat-tab>
+  <mat-tab label="Order Confirmation" [disabled]="!orderResponse">
+    <div *ngIf="orderResponse">
+      <pre><p>{{orderResponse | json}}</p></pre>
+    </div>
+  </mat-tab>
+</mat-tab-group>

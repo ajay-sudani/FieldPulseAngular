@@ -1,0 +1,16 @@
+@import "variables";
+
+.pizzeria {
+  margin-top: 100px;
+  text-align: center;
+
+  .pizzeria-card {
+    margin: 0 auto;
+    max-width: 400px;
+
+    @media screen and (max-width: $max-480) {
+      padding: 0 10px;
+      max-width: unset;
+    }
+  }
+}

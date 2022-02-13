@@ -1,0 +1,46 @@
+<div class="order-calculation-container">
+  <div class="row" *ngFor="let pizza of pizzaList">
+    <div class="avatar">
+      <img src="{{ pizza.image_url }}" />
+    </div>
+    <div class="details">
+      <p class="name">{{ pizza.name }}</p>
+      <p class="price-details">
+        <label>
+          Price :
+          <span> {{ pizza.price }}</span>
+        </label>
+        <label>
+          Count :
+          <span> {{ pizza.quantity }}</span>
+        </label>
+        <label>
+          Subtotal :
+          <span> {{ pizza.price * (pizza.quantity || 0) }}</span>
+        </label>
+      </p>
+    </div>
+  </div>
+  <div class="row final-calculation">
+    <div class="details">
+      <label>
+        Subtotal :
+        <span> {{ subTotal }} $</span>
+      </label>
+      <label>
+        Tax :
+        <span> {{ totalTax }} $</span>
+      </label>
+      <p>----------------------------</p>
+      <label>
+        Total :
+        <span> {{ subTotal + totalTax | number: "1.2-2" }} $</span>
+      </label>
+    </div>
+  </div>
+  <div class="confirm-order">
+    <button mat-raised-button color="primary" (click)="confirmOrder()">
+      Confirm Order
+    </button>
+  </div>
+</div>
