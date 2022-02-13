@@ -4,9 +4,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## How to run project
 
-    - run `npm install`
-    - run `ng serve`
-    - open `http://localhost:4200/`
+    - run npm install
+    - run ng serve
+    - open http://localhost:4200/
 
 ## Development server
 
