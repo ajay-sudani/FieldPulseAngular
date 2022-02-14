@@ -29,8 +29,8 @@ export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
   @Output() setSelectedTabIndexEvent = new EventEmitter<number>();
   @Output() orderResponseEvent = new EventEmitter<IOrderResponse | null>();
 
+  private usTaxRate: number = 0;
   public totalTax: number = 0;
-  public usTaxRate: number = 0;
   public subTotal: number = 0;
   public orderResponse: IOrderResponse | null = null;
 
