@@ -13,7 +13,7 @@ import {
   IOrderResponse,
   IOrderedPizza,
 } from "../core/models";
-import { Country_Tax_Rate, getPizzaSubtotal } from "../core/utils";
+import { Country_Tax_Rate } from "../core/utils";
 import { PizzaService } from "../core/services/pizza.service";
 
 type TaxCountryType = "au_tax_rate" | "nz_tax_rate";
@@ -58,7 +58,7 @@ export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
         total += pizza.tax;
         return total;
       }, 0);
-      this.subTotal = getPizzaSubtotal(this.pizzaList);
+      this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzaList);
       this.orderResponse = {
         result: {
           pizzeria_id: this.selectedPizzeria.id,

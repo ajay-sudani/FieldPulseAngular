@@ -20,4 +20,20 @@ export class PizzaService {
       "./assets/json/settings.json"
     );
   }
+
+  /**
+   *  Get pizzas sub total (total pizza * pizza price)
+   * @param pizzaList list of pizza
+   * @returns subtotal
+   */
+  public getPizzaSubtotal = (pizzas: IPizza[]): number => {
+    return Number(
+      pizzas
+        .reduce((total: number, pizza: IPizza) => {
+          total += (pizza.quantity || 0) * pizza.price;
+          return total;
+        }, 0)
+        .toFixed(2)
+    );
+  };
 }

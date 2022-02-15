@@ -8,7 +8,6 @@ import {
 } from "@angular/core";
 import { PizzaService } from "../core/services/pizza.service";
 import { IPizza, IPizzeria } from "../core/models";
-import { getPizzaSubtotal } from "../core/utils";
 
 type TogglePizzaType = "add" | "remove";
 
@@ -61,7 +60,7 @@ export class PizzaComponent implements OnChanges {
       pizza.quantity = pizza.quantity - 1;
       this.totalPizzas--;
     }
-    this.subTotal = getPizzaSubtotal(this.pizzaList);
+    this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzaList);
     this.selectedPizzaListEvent.emit(
       this.pizzaList.filter((pizza) => (pizza.quantity as number) > 0)
     );
