@@ -23,7 +23,7 @@ export class PizzaService {
 
   /**
    *  Get pizzas sub total (total pizza * pizza price)
-   * @param pizzaList list of pizza
+   * @param pizzas list of pizza
    * @returns subtotal
    */
   public getPizzaSubtotal = (pizzas: IPizza[]): number => {

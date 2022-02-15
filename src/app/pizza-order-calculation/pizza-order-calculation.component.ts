@@ -24,7 +24,7 @@ type TaxCountryType = "au_tax_rate" | "nz_tax_rate";
   styleUrls: ["./pizza-order-calculation.component.scss"],
 })
 export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
-  @Input() public pizzaList: IPizza[] = [];
+  @Input() public pizzas: IPizza[] = [];
   @Input() public selectedPizzeria: IPizzeria | null = null;
   @Output() setSelectedTabIndexEvent = new EventEmitter<number>();
   @Output() orderResponseEvent = new EventEmitter<IOrderResponse | null>();
@@ -51,14 +51,14 @@ export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
       this.subTotal = 0;
     }
 
-    if (this.selectedPizzeria && this.pizzaList.length > 0) {
+    if (this.selectedPizzeria && this.pizzas.length > 0) {
       // calculate tax rate based on selected pizzeria and pizza type
       const orderedPizza = this.getOrderedPizza();
       this.totalTax = orderedPizza.reduce((total, pizza) => {
         total += pizza.tax;
         return total;
       }, 0);
-      this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzaList);
+      this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzas);
       this.orderResponse = {
         result: {
           pizzeria_id: this.selectedPizzeria.id,
@@ -77,7 +77,7 @@ export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
    */
   getOrderedPizza(): IOrderedPizza[] {
     const list: IOrderedPizza[] = [];
-    this.pizzaList.forEach((pizza) => {
+    this.pizzas.forEach((pizza) => {
       const { id: pizza_id, price, is_taxed } = pizza;
       const quantity = pizza.quantity as number;
       let taxRate: number = 0;

@@ -9,7 +9,7 @@ import { IOrderResponse, IPizza, IPizzeria } from "../core/models";
 export class DashboardComponent {
   public selectedTabIndex: number = 0;
   public selectedPizzeria: IPizzeria | null = null;
-  public selectedPizzaList: IPizza[] = [];
+  public selectedPizzas: IPizza[] = [];
   public orderResponse: IOrderResponse | null = null;
 
   constructor() {}
@@ -17,7 +17,7 @@ export class DashboardComponent {
   // Set selected pisseria based on selected dropdown option
   onSelectPizzeria(pizzeria: IPizzeria): void {
     this.selectedPizzeria = pizzeria;
-    this.selectedPizzaList = [];
+    this.selectedPizzas = [];
     this.orderResponse = null;
   }
 
@@ -32,8 +32,8 @@ export class DashboardComponent {
   }
 
   // set selected pizza
-  setSelectedPizza(pizzaList: IPizza[]): void {
-    this.selectedPizzaList = pizzaList;
+  setSelectedPizza(pizzas: IPizza[]): void {
+    this.selectedPizzas = pizzas;
   }
 
   // Set ordered pizzas output object

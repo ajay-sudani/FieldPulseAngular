@@ -1,0 +1,30 @@
+<div *ngIf="pizza">
+  <mat-card-header>
+    <mat-card-title>{{ pizza.name }}</mat-card-title>
+    <mat-card-subtitle>Price : {{ pizza.price }}$ USD</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="{{ pizza.image_url }}" alt="{{ pizza.name }}" />
+  <mat-card-content>
+    <p>{{ pizza.description }}</p>
+  </mat-card-content>
+  <mat-card-actions class="actions">
+    <button
+      *ngIf="!pizza.quantity"
+      mat-raised-button
+      color="primary"
+      (click)="onAddPizzaQuantity(pizza)"
+    >
+      Add +
+    </button>
+    <div
+      *ngIf="pizza.quantity != undefined && pizza.quantity != 0"
+      class="range-picker"
+    >
+      <button mat-raised-button color="primary">
+        <span class="quantity" (click)="onRemovePizzaQuantity(pizza)">-</span>
+        <span>{{ pizza.quantity }}</span>
+        <span class="quantity" (click)="onAddPizzaQuantity(pizza)">+</span>
+      </button>
+    </div>
+  </mat-card-actions>
+</div>

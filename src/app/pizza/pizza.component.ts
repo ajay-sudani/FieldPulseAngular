@@ -9,8 +9,6 @@ import {
 import { PizzaService } from "../core/services/pizza.service";
 import { IPizza, IPizzeria } from "../core/models";
 
-type TogglePizzaType = "add" | "remove";
-
 @Component({
   selector: "app-pizza",
   templateUrl: "./pizza.component.html",
@@ -18,10 +16,10 @@ type TogglePizzaType = "add" | "remove";
 })
 export class PizzaComponent implements OnChanges {
   @Input() public selectedPizzeria: IPizzeria | null = null;
-  @Output() selectedPizzaListEvent = new EventEmitter<IPizza[]>();
+  @Output() setSelectedPizza = new EventEmitter<IPizza[]>();
   @Output() setSelectedTabIndexEvent = new EventEmitter<number>();
 
-  public pizzaList: IPizza[] = [];
+  public pizzas: IPizza[] = [];
   public totalPizzas = 0;
   public subTotal = 0;
 
@@ -43,7 +41,7 @@ export class PizzaComponent implements OnChanges {
   // To get default pizza list and apply filter based on selected pizzeria
   private getPizzerias() {
     this.pizzaService.getPizzaJSON().subscribe((data: IPizza[]) => {
-      this.pizzaList = data.filter((pizza) =>
+      this.pizzas = data.filter((pizza) =>
         pizza.available_in_pizzerias.includes(
           this.selectedPizzeria?.id as number
         )
@@ -51,18 +49,15 @@ export class PizzaComponent implements OnChanges {
     });
   }
 
-  // Set selected pizza's total quantity
-  togglePizza(pizza: IPizza, type: TogglePizzaType) {
-    if (type === "add") {
-      pizza.quantity = (pizza.quantity || 0) + 1;
-      this.totalPizzas++;
-    } else if (type === "remove" && pizza.quantity) {
-      pizza.quantity = pizza.quantity - 1;
-      this.totalPizzas--;
-    }
-    this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzaList);
-    this.selectedPizzaListEvent.emit(
-      this.pizzaList.filter((pizza) => (pizza.quantity as number) > 0)
+  // Increase selected pizza quantity
+  updatePizzaQuantity(pizza: IPizza, index: number) {
+    this.pizzas[index] = pizza;
+    this.totalPizzas = this.pizzas.reduce((total: number, pizza: IPizza) => {
+      return total + (pizza.quantity || 0);
+    }, 0);
+    this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzas);
+    this.setSelectedPizza.emit(
+      this.pizzas.filter((pizza) => (pizza.quantity as number) > 0)
     );
   }
 }

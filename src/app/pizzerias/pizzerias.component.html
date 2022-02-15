@@ -1,7 +1,7 @@
 <div class="pizzeria">
   <mat-form-field appearance="fill">
     <mat-label>Select Pizzeria</mat-label>
-    <mat-select (selectionChange)="onSelectPizzeria($event.value)">
+    <mat-select (selectionChange)="onPizzeriaChange($event.value)">
       <mat-option *ngFor="let pizzeria of pizzerias" [value]="pizzeria.id">
         {{ pizzeria.name }}
       </mat-option>
