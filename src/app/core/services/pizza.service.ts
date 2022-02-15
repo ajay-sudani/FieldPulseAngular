@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { IPizzeria, IPizza } from "../models";
+import { IPizzeria, IPizza, IOrderedPizza } from "../models";
 
 @Injectable()
 export class PizzaService {
@@ -35,5 +35,17 @@ export class PizzaService {
         }, 0)
         .toFixed(2)
     );
+  };
+
+  /**
+   *  Get ordered pizzas total tax
+   * @param pizzas list of ordered pizzas
+   * @returns total tax
+   */
+  public getOrderedPizzasTotalTax = (orderedPizza: IOrderedPizza[]): number => {
+    return orderedPizza.reduce((total: number, pizza: IOrderedPizza) => {
+      total += pizza.tax;
+      return total;
+    }, 0);
   };
 }

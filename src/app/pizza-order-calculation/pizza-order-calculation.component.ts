@@ -13,7 +13,7 @@ import {
   IOrderResponse,
   IOrderedPizza,
 } from "../core/models";
-import { Country_Tax_Rate } from "../core/utils";
+import { Country_Tax_Rate, Tabs } from "../core/utils";
 import { PizzaService } from "../core/services/pizza.service";
 
 type TaxCountryType = "au_tax_rate" | "nz_tax_rate";
@@ -24,15 +24,17 @@ type TaxCountryType = "au_tax_rate" | "nz_tax_rate";
   styleUrls: ["./pizza-order-calculation.component.scss"],
 })
 export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
-  @Input() public pizzas: IPizza[] = [];
-  @Input() public selectedPizzeria: IPizzeria | null = null;
-  @Output() setSelectedTabIndexEvent = new EventEmitter<number>();
-  @Output() orderResponseEvent = new EventEmitter<IOrderResponse | null>();
-
-  private usTaxRate: number = 0;
   public totalTax: number = 0;
   public subTotal: number = 0;
   public orderResponse: IOrderResponse | null = null;
+
+  private usTaxRate: number = 0;
+
+  @Input() public pizzas: IPizza[] = [];
+  @Input() public selectedPizzeria: IPizzeria | null = null;
+
+  @Output() setSelectedTabIndex = new EventEmitter<number>();
+  @Output() setOrderedPizzasResponse = new EventEmitter<IOrderResponse | null>();
 
   constructor(private pizzaService: PizzaService) {}
 
@@ -50,25 +52,6 @@ export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
       this.totalTax = 0;
       this.subTotal = 0;
     }
-
-    if (this.selectedPizzeria && this.pizzas.length > 0) {
-      // calculate tax rate based on selected pizzeria and pizza type
-      const orderedPizza = this.getOrderedPizza();
-      this.totalTax = orderedPizza.reduce((total, pizza) => {
-        total += pizza.tax;
-        return total;
-      }, 0);
-      this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzas);
-      this.orderResponse = {
-        result: {
-          pizzeria_id: this.selectedPizzeria.id,
-          pizza_items: orderedPizza,
-          subtotal: this.subTotal,
-          tax: this.totalTax,
-          total: Number((this.subTotal + this.totalTax).toFixed(2)),
-        },
-      };
-    }
   }
 
   /**
@@ -84,11 +67,9 @@ export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
       if (is_taxed) {
         const country: string =
           Country_Tax_Rate[this.selectedPizzeria?.country as ""];
-        taxRate = Number(
-          country === Country_Tax_Rate.US
-            ? this.usTaxRate
-            : pizza[country as TaxCountryType]
-        );
+        const isCountryUS = country === Country_Tax_Rate.US;
+        const defaultTaxRate = pizza[country as TaxCountryType];
+        taxRate = Number(isCountryUS ? this.usTaxRate : defaultTaxRate);
       }
       const subtotal = quantity * price;
       const tax = Number(((subtotal * taxRate) / 100).toFixed(2));
@@ -104,7 +85,22 @@ export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
   }
 
   confirmOrder() {
-    this.orderResponseEvent.emit(this.orderResponse);
-    this.setSelectedTabIndexEvent.emit(3);
+    if (this.selectedPizzeria) {
+      // calculate tax rate based on selected pizzeria and pizza type
+      const orderedPizza = this.getOrderedPizza();
+      this.totalTax = this.pizzaService.getOrderedPizzasTotalTax(orderedPizza);
+      this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzas);
+      this.orderResponse = {
+        result: {
+          pizzeria_id: this.selectedPizzeria.id,
+          pizza_items: orderedPizza,
+          subtotal: this.subTotal,
+          tax: this.totalTax,
+          total: Number((this.subTotal + this.totalTax).toFixed(2)),
+        },
+      };
+      this.setOrderedPizzasResponse.emit(this.orderResponse);
+      this.setSelectedTabIndex.emit(Tabs.ORDER_CONFIRMATION);
+    }
   }
 }

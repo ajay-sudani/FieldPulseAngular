@@ -1,0 +1,18 @@
+<div *ngIf="pizza">
+  <div class="avatar">
+    <img src="{{ pizza.image_url }}" />
+  </div>
+  <div class="details">
+    <p class="name">{{ pizza.name }}</p>
+    <p class="price-details">
+      <label>
+        Price :
+        <span> {{ pizza.price }}</span>
+      </label>
+      <label>
+        Quantity :
+        <span> {{ pizza.quantity }}</span>
+      </label>
+    </p>
+  </div>
+</div>

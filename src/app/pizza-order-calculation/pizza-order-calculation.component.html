@@ -1,25 +1,6 @@
 <div class="order-calculation-container">
   <div class="row" *ngFor="let pizza of pizzas">
-    <div class="avatar">
-      <img src="{{ pizza.image_url }}" />
-    </div>
-    <div class="details">
-      <p class="name">{{ pizza.name }}</p>
-      <p class="price-details">
-        <label>
-          Price :
-          <span> {{ pizza.price }}</span>
-        </label>
-        <label>
-          Count :
-          <span> {{ pizza.quantity }}</span>
-        </label>
-        <label>
-          Subtotal :
-          <span> {{ pizza.price * (pizza.quantity || 0) }}</span>
-        </label>
-      </p>
-    </div>
+    <app-ordered-pizza [pizza]="pizza"></app-ordered-pizza>
   </div>
   <div class="row final-calculation">
     <div class="details">

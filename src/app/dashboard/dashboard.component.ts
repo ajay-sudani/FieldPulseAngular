@@ -14,30 +14,25 @@ export class DashboardComponent {
 
   constructor() {}
 
-  // Set selected pisseria based on selected dropdown option
   onSelectPizzeria(pizzeria: IPizzeria): void {
     this.selectedPizzeria = pizzeria;
     this.selectedPizzas = [];
     this.orderResponse = null;
   }
 
-  // Set active tab index when click on tab direclty
-  onSelectedTabChange(event: MatTabChangeEvent): void {
+  selectedTabChange(event: MatTabChangeEvent): void {
     this.selectedTabIndex = event.index;
   }
 
-  // Set active tab index when click on other button
   setSelectedTabIndex(tabIndex: number): void {
     this.selectedTabIndex = tabIndex;
   }
 
-  // set selected pizza
   setSelectedPizza(pizzas: IPizza[]): void {
     this.selectedPizzas = pizzas;
   }
 
-  // Set ordered pizzas output object
-  setOrderResponse(orderResponse: IOrderResponse | null): void {
+  setOrderedPizzasResponse(orderResponse: IOrderResponse | null): void {
     console.log(orderResponse);
     this.orderResponse = orderResponse;
   }

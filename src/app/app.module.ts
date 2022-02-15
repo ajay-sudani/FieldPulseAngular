@@ -10,6 +10,8 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { PizzaComponent } from "./pizza/pizza.component";
 import { PizzaOrderCalculationComponent } from "./pizza-order-calculation/pizza-order-calculation.component";
 import { PizzaCardComponent } from './pizza-card/pizza-card.component';
+import { PizzeriaCardComponent } from './pizzeria-card/pizzeria-card.component';
+import { OrderedPizzaComponent } from './ordered-pizza/ordered-pizza.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { PizzaCardComponent } from './pizza-card/pizza-card.component';
     PizzaComponent,
     PizzaOrderCalculationComponent,
     PizzaCardComponent,
+    PizzeriaCardComponent,
+    OrderedPizzaComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,25 +7,10 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <div *ngIf="selectedPizzeriaId !== -1" class="pizzeria-card">
-    <mat-card>
-      <mat-card-subtitle>Pizzeria Details</mat-card-subtitle>
-      <mat-card-title>{{ pizzerias[selectedPizzeriaId].name }}</mat-card-title>
-      <mat-card-content>
-        <p>{{ pizzerias[selectedPizzeriaId].address }}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="setSelectedTabIndexEvent.emit(1)"
-        >
-          Order Pizza
-        </button>
-      </mat-card-actions>
-      <mat-card-footer>
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </mat-card-footer>
-    </mat-card>
+  <div *ngIf="selectedPizzeria" class="pizzeria-card">
+    <app-pizzeria-card
+      [selectedPizzeria]="selectedPizzeria"
+      (selectPizza)="selectPizza()"
+    ></app-pizzeria-card>
   </div>
 </div>

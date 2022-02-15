@@ -1,0 +1,15 @@
+<mat-card *ngIf="selectedPizzeria">
+  <mat-card-subtitle>Pizzeria Details</mat-card-subtitle>
+  <mat-card-title>{{ selectedPizzeria.name }}</mat-card-title>
+  <mat-card-content>
+    <p>{{ selectedPizzeria.address }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="selectPizza.emit()">
+      Order Pizza
+    </button>
+  </mat-card-actions>
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
