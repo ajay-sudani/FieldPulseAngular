@@ -43,9 +43,24 @@ export class PizzaService {
    * @returns total tax
    */
   public getOrderedPizzasTotalTax = (orderedPizza: IOrderedPizza[]): number => {
-    return orderedPizza.reduce((total: number, pizza: IOrderedPizza) => {
-      total += pizza.tax;
-      return total;
+    return Number(
+      orderedPizza
+        .reduce((total: number, pizza: IOrderedPizza) => {
+          total += pizza.tax;
+          return total;
+        }, 0)
+        .toFixed(2)
+    );
+  };
+
+  /**
+   *  Get total pizzas
+   * @param pizzas list of ordered pizzas
+   * @returns total pizzas
+   */
+  public getTotalPizzas = (pizzas: IPizza[]): number => {
+    return pizzas.reduce((total: number, pizza: IPizza) => {
+      return total + (pizza.quantity || 0);
     }, 0);
   };
 }

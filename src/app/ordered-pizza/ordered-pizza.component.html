@@ -1,18 +1,18 @@
-<div *ngIf="pizza" class="row">
+<div *ngIf="pizza" class="ordered-pizza">
   <div class="avatar">
-    <img src="{{ pizza.image_url }}" />
+      <img src="{{ pizza.image_url }}" [alt]="pizza.name" />
   </div>
   <div class="details">
     <p class="name">{{ pizza.name }}</p>
-    <p class="price-details">
-      <label>
-        Price :
+    <div class="row">
+      <div class="column">
+        <label> Price : </label>
         <span> {{ pizza.price }}</span>
-      </label>
-      <label>
-        Quantity :
+      </div>
+      <div class="column">
+        <label> Quantity : </label>
         <span> {{ pizza.quantity }}</span>
-      </label>
-    </p>
+      </div>
+    </div>
   </div>
 </div>

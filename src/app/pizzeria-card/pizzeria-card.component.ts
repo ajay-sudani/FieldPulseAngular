@@ -8,7 +8,6 @@ import { IPizzeria } from "../core/models";
 })
 export class PizzeriaCardComponent {
   @Input() selectedPizzeria: IPizzeria | null = null;
-  @Output() selectPizza = new EventEmitter<number>();
 
   constructor() {}
 }

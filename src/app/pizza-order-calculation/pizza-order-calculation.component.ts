@@ -16,18 +16,18 @@ type TaxCountryType = "au_tax_rate" | "nz_tax_rate";
   styleUrls: ["./pizza-order-calculation.component.scss"],
 })
 export class PizzaOrderCalculationComponent implements OnInit {
+  @Input() public pizzas: IPizza[] = [];
+  @Input() public selectedPizzeria: IPizzeria | null = null;
+
+  @Output() setOrderedPizzasResponse =
+    new EventEmitter<IOrderResponse | null>();
+
   public totalTax: number = 0;
   public subTotal: number = 0;
   public orderResponse: IOrderResponse | null = null;
 
   private usTaxRate: number = 0;
   private orderedPizza: IOrderedPizza[] = [];
-
-  @Input() public pizzas: IPizza[] = [];
-  @Input() public selectedPizzeria: IPizzeria | null = null;
-
-  @Output() setOrderedPizzasResponse =
-    new EventEmitter<IOrderResponse | null>();
 
   constructor(private pizzaService: PizzaService) {}
 

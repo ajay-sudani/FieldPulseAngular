@@ -16,16 +16,17 @@ import { IPizza, IPizzeria } from "../core/models";
   styleUrls: ["./pizza.component.scss"],
 })
 export class PizzaComponent implements OnInit, OnDestroy {
+  @Input() public selectedPizzeria: IPizzeria | null = null;
+  @Input() public selectedPizzas: IPizza[] = [];
+
+  @Output() setSelectedPizza = new EventEmitter<IPizza[]>();
+  @Output() onBack = new EventEmitter<IPizza[]>();
+
   public pizzas: IPizza[] = [];
   public totalPizzas = 0;
   public subTotal = 0;
 
   private pizzaJSONSubscriber: Subscription = new Subscription();
-
-  @Input() public selectedPizzeria: IPizzeria | null = null;
-
-  @Output() setSelectedPizza = new EventEmitter<IPizza[]>();
-  @Output() onBack = new EventEmitter<IPizza[]>();
 
   constructor(private pizzaService: PizzaService) {}
 
@@ -39,20 +40,11 @@ export class PizzaComponent implements OnInit, OnDestroy {
 
   updatePizzaQuantity(pizza: IPizza, index: number) {
     this.pizzas[index] = pizza;
-    this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzas);
-    this.updateTotalPizzas();
-  }
-
-  updateTotalPizzas() {
-    this.totalPizzas = this.pizzas.reduce((total: number, pizza: IPizza) => {
-      return total + (pizza.quantity || 0);
-    }, 0);
-  }
-
-  orderCalculation() {
     this.setSelectedPizza.emit(
       this.pizzas.filter((pizza) => (pizza.quantity as number) > 0)
     );
+    this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzas);
+    this.totalPizzas = this.pizzaService.getTotalPizzas(this.pizzas);
   }
 
   private setPizzas() {
@@ -64,6 +56,17 @@ export class PizzaComponent implements OnInit, OnDestroy {
             this.selectedPizzeria?.id as number
           )
         );
+        if (this.selectedPizzas.length > 0) {
+          // merge pizzas with selected pizzas
+          this.pizzas = this.pizzas.map((pizza) => ({
+            ...pizza,
+            ...this.selectedPizzas.find(
+              (selectedPizza) => pizza.id === selectedPizza.id
+            ),
+          }));
+          this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzas);
+          this.totalPizzas = this.pizzaService.getTotalPizzas(this.pizzas);
+        }
       });
   }
 }

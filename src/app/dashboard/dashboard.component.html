@@ -1,26 +1,46 @@
-<div class="container">
+<div class="dashboard">
+  <div class="back-step" *ngIf="activeStep !== steps.PIZZERIA">
+    <button mat-raised-button (click)="goBack()">Back</button>
+  </div>
   <app-pizzerias
-    *ngIf="!selectedPizzeria"
+    *ngIf="activeStep === steps.PIZZERIA"
+    [selectedPizzeria]="selectedPizzeria"
     (onSelectPizzeria)="onSelectPizzeria($event)"
   ></app-pizzerias>
 
   <app-pizza
-    *ngIf="selectedPizzeria && selectedPizzas.length === 0"
+    *ngIf="activeStep === steps.PIZZA"
     [selectedPizzeria]="selectedPizzeria"
-    (onBack)="selectedPizzeria = null"
+    [selectedPizzas]="selectedPizzas"
+    (onBack)="activeStep = steps.PIZZERIA"
     (setSelectedPizza)="setSelectedPizza($event)"
   >
   </app-pizza>
 
   <app-pizza-order-calculation
-    *ngIf="selectedPizzas.length > 0 && !orderResponse"
+    *ngIf="activeStep === steps.ORDER_CALCULATION"
     [selectedPizzeria]="selectedPizzeria"
     [pizzas]="selectedPizzas"
+    (onBack)="selectedPizzeria = null"
     (setOrderedPizzasResponse)="setOrderedPizzasResponse($event)"
   >
   </app-pizza-order-calculation>
 
-  <div *ngIf="orderResponse">
+  <div *ngIf="activeStep === steps.ORDER_CONFIRMATION">
     <pre><p>{{orderResponse | json}}</p></pre>
+  </div>
+
+  <div
+    class="next-step"
+    *ngIf="[steps.PIZZERIA, steps.PIZZA].includes(activeStep)"
+  >
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="goToNextStep()"
+      [disabled]="getNextBtnState()"
+    >
+      Go to next
+    </button>
   </div>
 </div>

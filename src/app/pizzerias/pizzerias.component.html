@@ -1,7 +1,10 @@
 <div class="pizzeria">
   <mat-form-field appearance="fill">
     <mat-label>Select Pizzeria</mat-label>
-    <mat-select (selectionChange)="onPizzeriaChange($event.value)">
+    <mat-select
+      (selectionChange)="onPizzeriaChange($event.value)"
+      [(value)]="selectedPizzeria && selectedPizzeria.id"
+    >
       <mat-option *ngFor="let pizzeria of pizzerias" [value]="pizzeria.id">
         {{ pizzeria.name }}
       </mat-option>
@@ -10,7 +13,6 @@
   <div *ngIf="selectedPizzeria" class="pizzeria-card">
     <app-pizzeria-card
       [selectedPizzeria]="selectedPizzeria"
-      (selectPizza)="selectPizza()"
     ></app-pizzeria-card>
   </div>
 </div>

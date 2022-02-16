@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
+  Input,
 } from "@angular/core";
 import { Subscription } from "rxjs";
 import { PizzaService } from "../core/services/pizza.service";
@@ -15,12 +16,13 @@ import { IPizzeria } from "../core/models";
   styleUrls: ["./pizzerias.component.scss"],
 })
 export class PizzeriaComponent implements OnInit, OnDestroy {
-  public pizzerias: IPizzeria[] = [];
-  public selectedPizzeria: IPizzeria | undefined = undefined;
-
-  private pizzeriasJSONSubscriber: Subscription = new Subscription();
+  @Input() selectedPizzeria: IPizzeria | null = null;
 
   @Output() onSelectPizzeria = new EventEmitter<IPizzeria>();
+
+  public pizzerias: IPizzeria[] = [];
+
+  private pizzeriasJSONSubscriber: Subscription = new Subscription();
 
   constructor(private pizzaService: PizzaService) {}
 
@@ -32,12 +34,11 @@ export class PizzeriaComponent implements OnInit, OnDestroy {
     this.pizzeriasJSONSubscriber.unsubscribe();
   }
 
-  selectPizza() {
-    this.onSelectPizzeria.emit(this.selectedPizzeria);
-  }
-
   onPizzeriaChange(id: number) {
-    this.selectedPizzeria = this.pizzerias.find((pizza) => pizza.id === id);
+    this.selectedPizzeria = this.pizzerias.find(
+      (pizza) => pizza.id === id
+    ) as IPizzeria;
+    this.onSelectPizzeria.emit(this.selectedPizzeria);
   }
 
   private setPizzerias() {

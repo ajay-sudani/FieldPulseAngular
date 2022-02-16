@@ -1,4 +1,9 @@
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
+.dashboard {
+  .next-step,
+  .back-step {
+      text-align: center;
+      button {
+          margin: 50px;
+      }
+  }
 }

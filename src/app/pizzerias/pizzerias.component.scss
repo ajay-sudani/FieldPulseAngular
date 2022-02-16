@@ -8,7 +8,7 @@
     margin: 0 auto;
     max-width: 400px;
 
-    @media screen and (max-width: $max-480) {
+    @media screen and (max-width: $max-mobile) {
       padding: 0 10px;
       max-width: unset;
     }
