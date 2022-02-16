@@ -6,7 +6,6 @@ import {
   OnDestroy,
 } from "@angular/core";
 import { Subscription } from "rxjs";
-import { Tabs } from "../core/utils";
 import { PizzaService } from "../core/services/pizza.service";
 import { IPizzeria } from "../core/models";
 
@@ -22,7 +21,6 @@ export class PizzeriaComponent implements OnInit, OnDestroy {
   private pizzeriasJSONSubscriber: Subscription = new Subscription();
 
   @Output() onSelectPizzeria = new EventEmitter<IPizzeria>();
-  @Output() setSelectedTabIndex = new EventEmitter<number>();
 
   constructor(private pizzaService: PizzaService) {}
 
@@ -34,22 +32,19 @@ export class PizzeriaComponent implements OnInit, OnDestroy {
     this.pizzeriasJSONSubscriber.unsubscribe();
   }
 
-  // Get default pizzerias JSON and set it to pizzerias
+  selectPizza() {
+    this.onSelectPizzeria.emit(this.selectedPizzeria);
+  }
+
+  onPizzeriaChange(id: number) {
+    this.selectedPizzeria = this.pizzerias.find((pizza) => pizza.id === id);
+  }
+
   private setPizzerias() {
     this.pizzeriasJSONSubscriber = this.pizzaService
       .getPizzeriasJSON()
       .subscribe((data: IPizzeria[]) => {
         this.pizzerias = data;
       });
-  }
-
-  selectPizza() {
-    this.setSelectedTabIndex.emit(Tabs.CHOOSE_PIZZA);
-  }
-
-  // Set selected pizzeria id and notify to parent component about selection
-  onPizzeriaChange(id: number) {
-    this.selectedPizzeria = this.pizzerias.find((pizza) => pizza.id === id);
-    this.onSelectPizzeria.emit(this.selectedPizzeria);
   }
 }

@@ -1,22 +1,21 @@
-<div class="order-calculation-container">
-  <div class="row" *ngFor="let pizza of pizzas">
-    <app-ordered-pizza [pizza]="pizza"></app-ordered-pizza>
-  </div>
-  <div class="row final-calculation">
-    <div class="details">
-      <label>
-        Subtotal :
-        <span> {{ subTotal }} $</span>
-      </label>
-      <label>
-        Tax :
-        <span> {{ totalTax }} $</span>
-      </label>
-      <p>----------------------------</p>
-      <label>
-        Total :
-        <span> {{ subTotal + totalTax | number: "1.2-2" }} $</span>
-      </label>
+<div class="order-calculation">
+  <app-ordered-pizza
+    *ngFor="let pizza of pizzas"
+    [pizza]="pizza"
+  ></app-ordered-pizza>
+  <div class="final-calculation">
+    <div class="row">
+      <label> Subtotal :</label>
+      <span> {{ subTotal }} $</span>
+    </div>
+    <div class="row">
+      <label> Tax :</label>
+      <span> {{ totalTax }} $</span>
+    </div>
+    <div class="row">----------------------------</div>
+    <div class="row">
+      <label> Total :</label>
+      <span> {{ subTotal + totalTax | number: "1.2-2" }} $</span>
     </div>
   </div>
   <div class="confirm-order">

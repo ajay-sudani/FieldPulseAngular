@@ -1,0 +1,56 @@
+@import "variables";
+
+.row {
+  display: flex;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid grey;
+
+  .avatar {
+    img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+
+      @media screen and (max-width: $max-480) {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  }
+
+  .details {
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media screen and (max-width: $max-480) {
+      margin-left: 20px;
+    }
+
+    .name {
+      font-size: 18px;
+
+      @media screen and (max-width: $max-480) {
+        font-size: 16px;
+      }
+    }
+
+    .price-details {
+      @media screen and (max-width: $max-480) {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    label {
+      font-size: 16px;
+      margin-right: 20px;
+
+      span {
+        color: $font-color-primary;
+      }
+    }
+  }
+}

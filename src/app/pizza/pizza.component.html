@@ -3,19 +3,14 @@
     <p class="name">{{ selectedPizzeria.name }}</p>
     <p>{{ selectedPizzeria.address }}</p>
   </div>
-  <div class="header-content" *ngIf="availablePizzas.length > 0">
+  <div class="header-content" *ngIf="pizzas.length > 0">
     <div>
-      <button
-        mat-raised-button
-        (click)="setSelectedTabIndex.emit(tabs.PIZZERIAS)"
-      >
-        Back
-      </button>
+      <button mat-raised-button (click)="onBack.emit()">Back</button>
       <button
         *ngIf="totalPizzas > 0"
         mat-raised-button
         color="primary"
-        (click)="setSelectedTabIndex.emit(tabs.ORDER_CALCULATION)"
+        (click)="orderCalculation()"
       >
         Order Calculation
       </button>
@@ -30,18 +25,14 @@
     </div>
   </div>
   <div
-    *ngIf="availablePizzas.length > 0; else no_pizza_available_content"
+    *ngIf="pizzas.length > 0; else no_pizza_available_content"
     class="content"
   >
-    <mat-card
-      class="pizza-card"
-      *ngFor="let pizza of availablePizzas; let index = index"
-    >
-      <app-pizza-card
-        [pizza]="pizza"
-        (updatePizzaQuantity)="updatePizzaQuantity($event, index)"
-      ></app-pizza-card>
-    </mat-card>
+    <app-pizza-card
+      *ngFor="let pizza of pizzas; let index = index"
+      [pizza]="pizza"
+      (updatePizzaQuantity)="updatePizzaQuantity($event, index)"
+    ></app-pizza-card>
   </div>
 
   <ng-template #no_pizza_available_content>
@@ -51,13 +42,7 @@
         <p>Kindly choose other Pizzeria from Pizzeria tab.</p>
       </mat-card-content>
       <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="setSelectedTabIndex.emit(tabs.PIZZERIAS)"
-        >
-          Back
-        </button>
+        <button mat-raised-button color="primary">Back</button>
       </mat-card-actions>
     </mat-card>
   </ng-template>

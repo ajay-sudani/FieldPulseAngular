@@ -1,4 +1,4 @@
-<div *ngIf="pizza">
+<mat-card *ngIf="pizza" class="pizza-card">
   <mat-card-header>
     <mat-card-title>{{ pizza.name }}</mat-card-title>
     <mat-card-subtitle>Price : {{ pizza.price }}$ USD</mat-card-subtitle>
@@ -27,4 +27,4 @@
       </button>
     </div>
   </mat-card-actions>
-</div>
+</mat-card>

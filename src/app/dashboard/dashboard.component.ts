@@ -5,6 +5,7 @@ import { IOrderResponse, IPizza, IPizzeria } from "../core/models";
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.scss"],
 })
 export class DashboardComponent {
   public selectedTabIndex: number = 0;
@@ -22,10 +23,6 @@ export class DashboardComponent {
 
   selectedTabChange(event: MatTabChangeEvent): void {
     this.selectedTabIndex = event.index;
-  }
-
-  setSelectedTabIndex(tabIndex: number): void {
-    this.selectedTabIndex = tabIndex;
   }
 
   setSelectedPizza(pizzas: IPizza[]): void {

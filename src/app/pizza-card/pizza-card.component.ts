@@ -12,13 +12,11 @@ export class PizzaCardComponent {
 
   constructor() {}
 
-  // Increase selected pizza quantity
   onAddPizzaQuantity(pizza: IPizza) {
     pizza.quantity = (pizza.quantity || 0) + 1;
     this.updatePizzaQuantity.emit(pizza);
   }
 
-  // Decrease selected pizza quantity
   onRemovePizzaQuantity(pizza: IPizza) {
     if (pizza.quantity) {
       pizza.quantity = pizza.quantity - 1;

@@ -1,33 +1,26 @@
-<mat-tab-group
-  [backgroundColor]="'primary'"
-  [selectedIndex]="selectedTabIndex"
-  (selectedTabChange)="selectedTabChange($event)"
->
-  <mat-tab label="Pizzeria">
-    <app-pizzerias
-      (onSelectPizzeria)="onSelectPizzeria($event)"
-      (setSelectedTabIndex)="setSelectedTabIndex($event)"
-    ></app-pizzerias>
-  </mat-tab>
-  <mat-tab label="Choose Pizza" [disabled]="!selectedPizzeria">
-    <app-pizza
-      [selectedPizzeria]="selectedPizzeria"
-      (setSelectedPizza)="setSelectedPizza($event)"
-      (setSelectedTabIndex)="setSelectedTabIndex($event)"
-    >
-    </app-pizza>
-  </mat-tab>
-  <mat-tab label="Order Calculation" [disabled]="selectedPizzas.length == 0">
-    <app-pizza-order-calculation
-      [selectedPizzeria]="selectedPizzeria"
-      [pizzas]="selectedPizzas"
-      (setSelectedTabIndex)="setSelectedTabIndex($event)"
-      (setOrderedPizzasResponse)="setOrderedPizzasResponse($event)"
-    ></app-pizza-order-calculation>
-  </mat-tab>
-  <mat-tab label="Order Confirmation" [disabled]="!orderResponse">
-    <div *ngIf="orderResponse">
-      <pre><p>{{orderResponse | json}}</p></pre>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+<div class="container">
+  <app-pizzerias
+    *ngIf="!selectedPizzeria"
+    (onSelectPizzeria)="onSelectPizzeria($event)"
+  ></app-pizzerias>
+
+  <app-pizza
+    *ngIf="selectedPizzeria && selectedPizzas.length === 0"
+    [selectedPizzeria]="selectedPizzeria"
+    (onBack)="selectedPizzeria = null"
+    (setSelectedPizza)="setSelectedPizza($event)"
+  >
+  </app-pizza>
+
+  <app-pizza-order-calculation
+    *ngIf="selectedPizzas.length > 0 && !orderResponse"
+    [selectedPizzeria]="selectedPizzeria"
+    [pizzas]="selectedPizzas"
+    (setOrderedPizzasResponse)="setOrderedPizzasResponse($event)"
+  >
+  </app-pizza-order-calculation>
+
+  <div *ngIf="orderResponse">
+    <pre><p>{{orderResponse | json}}</p></pre>
+  </div>
+</div>

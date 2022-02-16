@@ -1,19 +1,11 @@
-import {
-  Component,
-  Input,
-  Output,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  EventEmitter,
-} from "@angular/core";
+import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 import {
   IPizza,
   IPizzeria,
   IOrderResponse,
   IOrderedPizza,
 } from "../core/models";
-import { Country_Tax_Rate, Tabs } from "../core/utils";
+import { Country_Tax_Rate } from "../core/utils";
 import { PizzaService } from "../core/services/pizza.service";
 
 type TaxCountryType = "au_tax_rate" | "nz_tax_rate";
@@ -23,41 +15,37 @@ type TaxCountryType = "au_tax_rate" | "nz_tax_rate";
   templateUrl: "./pizza-order-calculation.component.html",
   styleUrls: ["./pizza-order-calculation.component.scss"],
 })
-export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
+export class PizzaOrderCalculationComponent implements OnInit {
   public totalTax: number = 0;
   public subTotal: number = 0;
   public orderResponse: IOrderResponse | null = null;
 
   private usTaxRate: number = 0;
+  private orderedPizza: IOrderedPizza[] = [];
 
   @Input() public pizzas: IPizza[] = [];
   @Input() public selectedPizzeria: IPizzeria | null = null;
 
-  @Output() setSelectedTabIndex = new EventEmitter<number>();
-  @Output() setOrderedPizzasResponse = new EventEmitter<IOrderResponse | null>();
+  @Output() setOrderedPizzasResponse =
+    new EventEmitter<IOrderResponse | null>();
 
   constructor(private pizzaService: PizzaService) {}
 
   ngOnInit(): void {
     this.pizzaService.getUsTaxRate().subscribe((rate) => {
       this.usTaxRate = rate.us_tax_rate;
+      this.calculatePrice();
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes["selectedPizzeria"]?.currentValue?.id !==
-      changes["selectedPizzeria"]?.previousValue?.id
-    ) {
-      this.totalTax = 0;
-      this.subTotal = 0;
-    }
+  calculatePrice(): void {
+    this.orderedPizza = this.getOrderedPizza();
+    this.totalTax = this.pizzaService.getOrderedPizzasTotalTax(
+      this.orderedPizza
+    );
+    this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzas);
   }
 
-  /**
-   *  Get ordered pizzas
-   * @returns ordered pizza list
-   */
   getOrderedPizza(): IOrderedPizza[] {
     const list: IOrderedPizza[] = [];
     this.pizzas.forEach((pizza) => {
@@ -87,20 +75,16 @@ export class PizzaOrderCalculationComponent implements OnInit, OnChanges {
   confirmOrder() {
     if (this.selectedPizzeria) {
       // calculate tax rate based on selected pizzeria and pizza type
-      const orderedPizza = this.getOrderedPizza();
-      this.totalTax = this.pizzaService.getOrderedPizzasTotalTax(orderedPizza);
-      this.subTotal = this.pizzaService.getPizzaSubtotal(this.pizzas);
       this.orderResponse = {
         result: {
           pizzeria_id: this.selectedPizzeria.id,
-          pizza_items: orderedPizza,
+          pizza_items: this.orderedPizza,
           subtotal: this.subTotal,
           tax: this.totalTax,
           total: Number((this.subTotal + this.totalTax).toFixed(2)),
         },
       };
       this.setOrderedPizzasResponse.emit(this.orderResponse);
-      this.setSelectedTabIndex.emit(Tabs.ORDER_CONFIRMATION);
     }
   }
 }
