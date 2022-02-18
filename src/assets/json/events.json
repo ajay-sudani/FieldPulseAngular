@@ -1,0 +1,22 @@
+{
+    "events": [
+        {
+            "id": 1,
+            "name": "All Hands Meeting",
+            "description": "All Hands Meeting 2022",
+            "date": "2022-02-15"
+        },
+        {
+            "id": 2,
+            "name": "Christmas Party",
+            "description": "Christmas Party 2022",
+            "date": "2022-12-20"
+        },
+        {
+            "id": 3,
+            "name": "Christmas Party",
+            "description": "Christmas Party 2022",
+            "date": "2022-12-20"
+        }
+    ]
+}

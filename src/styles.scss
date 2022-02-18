@@ -8,3 +8,9 @@ body {
   margin: 0;
   background-color: #f1f5f8;
 }
+
+.event-card {
+  .mat-card-header-text {
+    margin: 0px;
+  }
+}

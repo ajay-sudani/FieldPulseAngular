@@ -1,0 +1,17 @@
+@import "variables";
+
+:host {
+  width: 50%;
+
+  .event-card {
+    margin: 20px;
+
+    .name {
+      cursor: pointer;
+    }
+  }
+
+  @media screen and (max-width: $min-tablet) {
+    width: 100%;
+  }
+}
