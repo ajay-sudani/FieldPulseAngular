@@ -1,18 +1,17 @@
 $font-color-primary: green;
 
 // Custom break point (Min)
-$min-1440: 1440px;
-$min-1280: 1280px;
-$min-1024: 1024px;
-$min-768: 768px;
-$min-480: 480px;
+$min-desktop-hd: 1440px;
+$min-laptop: 1280px;
+$min-desktop: 1024px;
+$min-tablet: 768px;
+$min-mobile: 480px;
 
 // Custom break point (Max)
-$max-1440: 1439px;
-$max-1280: 1279px;
-$max-1024: 1023px;
-$max-768: 767px;
-$max-480: 479px;
+$max-desktop-hd: 1439px;
+$max-laptop: 1279px;
+$max-desktop: 1023px;
+$max-tablet: 767px;
+$max-mobile: 479px;
 
-
-
+$default-max-width: 1280px;
